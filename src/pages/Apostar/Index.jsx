@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import {
+  Container,
   Card,
   Box,
   Stepper,
@@ -9,6 +10,8 @@ import {
   Button,
   Typography
 } from "@mui/material";
+
+import Modalidade from "./steps/Modalidade";
 
 export default function(){
 
@@ -28,14 +31,22 @@ export default function(){
   };
 
   return (
-    <Card sx={{p: 2, m: 10 }}>
+    <Card sx={{
+        p: 2,                // padding
+        m: 0,                // margin base     
+        m: { xs: 0, md: 10 }
+  }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={index}>
-            <StepLabel>{label}</StepLabel>
+            <StepLabel>
+              <Typography sx={{ display: { xs: "none", md: "block" } }}>
+                {label}
+              </Typography>              
+            </StepLabel>
           </Step>
         ))}
-      </Stepper>
+      </Stepper>  
 
       {activeStep === steps.length ? (
         <>
@@ -45,10 +56,10 @@ export default function(){
           <Button onClick={handleReset}>Reiniciar</Button>
         </>
       ) : (
-        <>
-          <Box sx={{ mt: 2, mb: 1 }}>
-            <Typography>Contenido del paso {activeStep + 1}</Typography>
-          </Box>
+        <>        
+          <Container sx={{ mt: 2, mb: 1 }}>
+            {activeStep===0 && <Modalidade/>}
+          </Container>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
               color="inherit"
@@ -62,6 +73,7 @@ export default function(){
               {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
             </Button>
           </Box>
+         
         </>
       )}
     </Card>);
