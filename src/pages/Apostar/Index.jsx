@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 
 import Modalidade from "./steps/Modalidade";
+import Numeros from "./steps/Numeros";
 
 export default function(){
 
@@ -59,6 +60,7 @@ export default function(){
         <>        
           <Container sx={{ mt: 2, mb: 1 }}>
             {activeStep===0 && <Modalidade/>}
+            {activeStep===1 && <Numeros/>}
           </Container>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
