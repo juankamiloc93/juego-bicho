@@ -3,8 +3,6 @@ import {
   Card,
   Box,
   Stepper,
-  Step,
-  StepLabel,
   Button,
   Typography,
   TextField
@@ -12,7 +10,7 @@ import {
 
 export default function Teclado(props){
 
-    const { onClickTeclado, onBorrarNumero } = props 
+    const { onClickTeclado, onBorrarNumero, onClickInserir } = props 
 
     const onClickNumero = (numero) => onClickTeclado(numero)
 
@@ -113,6 +111,7 @@ export default function Teclado(props){
                 <Button
                     variant="contained"
                     sx={{m:1, px:4, py:3}}
+                    onClick={onClickInserir}
                 >
                    0
                 </Button> 

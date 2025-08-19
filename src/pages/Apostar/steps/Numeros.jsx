@@ -21,17 +21,20 @@ export default function Numeros(){
 
     const onClickTeclado = (numero) => setNumeroInput(antigo => '' + antigo + numero)  
     
-    const onCllickSorte = () => console.log('sorte')
+    const onCllickSorte = () => {
+         setNumeroInput("")  
+    }
     
     const onClickInserir = () => {
         if(numeroInput.length>0){
             setNumeros(antigo => [...antigo, numeroInput])
             setNumeroInput("")  
-        }
-       
+        }       
     }
 
     const onBorrarNumero = () => setNumeroInput('')
+
+    const onEliminarNumero = (id) =>  setNumeros(antigo => antigo.filter((_, index) => index!=id))
 
     return(<>
             <Box
@@ -42,8 +45,13 @@ export default function Numeros(){
                     pt: 5   
                 }}
             >
-                {numeros.map((numero) => {
-                    return <Alert icon={<DeleteIcon fontSize="inherit" />}>
+                {numeros.map((numero, index) => {
+                    return <Alert
+                        sx={{ cursor: "pointer" }}  
+                        key={index} 
+                        icon={<DeleteIcon fontSize="inherit" />}
+                        onClick={() => onEliminarNumero(index)}
+                    >
                         {numero}
                     </Alert>
                 })}
@@ -69,7 +77,7 @@ export default function Numeros(){
                 />
                 <Button
                     variant="contained"
-                    onClick={onClickInserir}
+                    onClick={onCllickSorte}
                 >
                    Sorte 
                 </Button>
@@ -77,6 +85,8 @@ export default function Numeros(){
             <Teclado
                 onClickTeclado={onClickTeclado}
                 onBorrarNumero={onBorrarNumero}
+                onClickInserir={onClickInserir}
+
             />
         </>
     )
