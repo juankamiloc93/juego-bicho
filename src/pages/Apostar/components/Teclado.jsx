@@ -105,6 +105,7 @@ export default function Teclado(props){
                 <Button
                     variant="contained"
                    sx={{m:1, px:4, py:3}}
+                   onClick={() => onClickNumero(0)}
                 >
                    0
                 </Button> 

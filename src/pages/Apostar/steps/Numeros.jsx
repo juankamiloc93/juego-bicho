@@ -4,6 +4,7 @@ import {
   Container,
   Card,
   Box,
+  Grid,
   Button,
   Typography,
   TextField,
@@ -16,28 +17,49 @@ import Teclado from "../components/Teclado";
 
 export default function Numeros(){
 
+    const digitos = 4;
+
     const [numeroInput, setNumeroInput] = useState("")
     const [numeros, setNumeros] = useState([])
 
-    const onClickTeclado = (numero) => setNumeroInput(antigo => '' + antigo + numero)  
+    const onChangeNumeroInput = (e) => {
+        if(e.target.value.length<=digitos){
+            setNumeroInput(Number(e.target.value));
+        }
+        
+    }
+
+    const onClickTeclado = (numero) => {
+        if(('' + numeroInput + numero).length<=digitos){
+            setNumeroInput(antigo => '' + antigo + numero)  
+        }        
+    }
     
-    const onCllickSorte = () => {
-         setNumeroInput("")  
+    const onCllickSorte = () => {   
+        let numero = null    
+        do{
+            const fin = Math.pow(10, digitos) - 1; // ej: 9999
+            numero = Math.floor(Math.random() * (fin + 1)); // entre 0 y 9999            
+            numero = String(numero).padStart(digitos, "0"); // Convertir a string con ceros a la izquierda
+        }while(numeros.includes(numero))
+        setNumeros(antigo => [...antigo, numero])
     }
     
     const onClickInserir = () => {
-        if(numeroInput.length>0){
+        if(numeroInput.length===digitos){
             setNumeros(antigo => [...antigo, numeroInput])
             setNumeroInput("")  
         }       
     }
+
 
     const onBorrarNumero = () => setNumeroInput('')
 
     const onEliminarNumero = (id) =>  setNumeros(antigo => antigo.filter((_, index) => index!=id))
 
     return(<>
-            <Box
+            <Grid 
+                container
                 sx={{
                     display: "flex",
                     justifyContent: "center",
@@ -46,17 +68,19 @@ export default function Numeros(){
                 }}
             >
                 {numeros.map((numero, index) => {
-                    return <Alert
-                        sx={{ cursor: "pointer" }}  
-                        key={index} 
-                        icon={<DeleteIcon fontSize="inherit" />}
-                        onClick={() => onEliminarNumero(index)}
-                    >
-                        {numero}
-                    </Alert>
+                    return <Grid item>
+                        <Alert
+                            sx={{ cursor: "pointer" }}  
+                            key={index} 
+                            icon={<DeleteIcon fontSize="inherit" />}
+                            onClick={() => onEliminarNumero(index)}
+                        >
+                            {numero}
+                        </Alert>
+                    </Grid>
                 })}
                                 
-            </Box>            
+            </Grid>            
             <Box
                 sx={{
                     display: "flex",
@@ -70,7 +94,7 @@ export default function Numeros(){
                     label="Numero"
                     variant="outlined"
                     value={numeroInput}   
-                    onChange={(e) => setNumeroInput(Number(e.target.value))}               
+                    onChange={onChangeNumeroInput}               
                     sx={{
                         width: 200
                     }}
