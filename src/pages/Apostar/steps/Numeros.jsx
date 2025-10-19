@@ -15,9 +15,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import Teclado from "../components/Teclado";
 
-export default function Numeros(){
+export default function Numeros(porps){
 
-    const digitos = 4;
+    const { digitos } = porps;
 
     const [numeroInput, setNumeroInput] = useState("")
     const [numeros, setNumeros] = useState([])

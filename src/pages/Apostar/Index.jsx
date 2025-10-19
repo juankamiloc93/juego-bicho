@@ -13,11 +13,16 @@ import {
 
 import Modalidade from "./steps/Modalidade";
 import Numeros from "./steps/Numeros";
+import Grupos from "./steps/Grupos"
+import { NoMealsOuline } from "@mui/icons-material";
 
 export default function(){
 
     const [activeStep, setActiveStep] = useState(0);
     const steps = ["Modalidade", "Números", "Posição, quantia e divisão", "Tipo de sorteio", "Confirme"];
+    
+    const [modalidade, setModalidade] = useState(NoMealsOuline)  
+    const [digitos, setDigitos] = useState(null)
 
     const handleNext = () => {
     setActiveStep((prev) => prev + 1);
@@ -35,7 +40,7 @@ export default function(){
     <Card sx={{
         p: 2,                // padding
         m: 0,                // margin base     
-        m: { xs: 0, md: 10 }
+        m: { xs: 0, md: 3 }
   }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => (
@@ -59,8 +64,9 @@ export default function(){
       ) : (
         <>        
           <Container sx={{ mt: 2, mb: 1 }}>
-            {activeStep===0 && <Modalidade/>}
-            {activeStep===1 && <Numeros/>}
+            {activeStep===0 && <Modalidade handleNext={handleNext} setDigitos={setDigitos} setModalidade={setModalidade}/>}
+            {activeStep===1 && modalidade==='numeros' && <Numeros digitos={digitos}/>}
+            {activeStep===1 && modalidade==='grupo' && <Grupos/>}
           </Container>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
