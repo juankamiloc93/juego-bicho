@@ -102,6 +102,7 @@ export default function Numeros(porps){
                 <Button
                     variant="contained"
                     onClick={onCllickSorte}
+                    color="success"
                 >
                    Sorte 
                 </Button>

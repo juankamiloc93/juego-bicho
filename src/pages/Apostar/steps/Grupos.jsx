@@ -38,7 +38,9 @@ const grupos = [
     { id: "25", numeros: ["97", "98", "99", "00"], imagen: "vaca.png" },
   ];
 
-export default function Grupos() {
+export default function Grupos(props) {
+
+  const { digitos } = props
 
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedGrupo, setSelectedGrupo] = useState([]);
@@ -46,7 +48,7 @@ export default function Grupos() {
   const images = import.meta.glob("../../../assets/animales/*", { eager: true });
   
   useEffect(() => {
-    if(selectedIds.length >= 2){
+    if(selectedIds.length >= digitos){
       setSelectedGrupo((prevGrupo)=>
           [...prevGrupo, [selectedIds]]
         )

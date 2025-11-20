@@ -8,6 +8,9 @@ import {
   TextField
 } from "@mui/material";
 
+import CheckIcon from '@mui/icons-material/Check';
+import Backspace from '@mui/icons-material/Backspace';
+
 export default function Teclado(props){
 
     const { onClickTeclado, onBorrarNumero, onClickInserir } = props 
@@ -97,10 +100,11 @@ export default function Teclado(props){
             <Box>
                  <Button
                     variant="contained"
-                    sx={{m:1, px:4, py:3}}
+                    color="error"
+                    sx={{m:1, px:3, py:3}}
                     onClick={onBorrarNumero}
                 >
-                   {"<="}
+                   <Backspace/>
                 </Button> 
                 <Button
                     variant="contained"
@@ -111,10 +115,11 @@ export default function Teclado(props){
                 </Button> 
                 <Button
                     variant="contained"
-                    sx={{m:1, px:4, py:3}}
+                    color="success"
+                    sx={{m:1, px:3, py:3}}
                     onClick={onClickInserir}
                 >
-                   0
+                   <CheckIcon/>
                 </Button> 
             </Box>
         </Box>

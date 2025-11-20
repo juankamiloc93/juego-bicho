@@ -5,11 +5,11 @@ export default function Modalidade(props) {
   const { handleNext, setDigitos, setModalidade } = props
 
   const modalidades = [
-    {nome: "Grupo", muliplicador: "1xR$18,00", digitos: 0, modalidade: 'grupo'},
+    {nome: "Grupo", muliplicador: "1xR$18,00", digitos: 1, modalidade: 'grupo'},
     {nome: "Milhar", muliplicador: "1xR$6.000,00", digitos: 4, modalidade: 'numeros'},
-    {nome: "Modalidad 3", muliplicador: "1xR$20.00", digitos: 0, modalidade: 'grupo'},
+    {nome: "Dupla Grupo", muliplicador: "1xR$20.00", digitos: 2, modalidade: 'grupo'},
     {nome: "Centena", muliplicador: "1xR$600.00", digitos: 3, modalidade: 'numeros'},
-    {nome: "Modalidad 5", muliplicador: "1xR$22.00", digitos: 0, modalidade: 'grupo'},
+    {nome: "Terno Grupo", muliplicador: "1xR$22.00", digitos: 3, modalidade: 'grupo'},
     {nome: "Dezena", muliplicador: "1xR$23.00", digitos:2, modalidade: 'numeros'},
     {nome: "Modalidad 7", muliplicador: "1xR$24.00", digitos: 0, modalidade: 'grupo'},
     {nome: "Modalidad 8", muliplicador: "1xR$25.00", digitos:0, modalidade: 'numeros'},

@@ -14,6 +14,7 @@ import {
 import Modalidade from "./steps/Modalidade";
 import Numeros from "./steps/Numeros";
 import Grupos from "./steps/Grupos"
+import Quantia from "./steps/Quantia";
 import { NoMealsOuline } from "@mui/icons-material";
 
 export default function(){
@@ -66,7 +67,8 @@ export default function(){
           <Container sx={{ mt: 2, mb: 1 }}>
             {activeStep===0 && <Modalidade handleNext={handleNext} setDigitos={setDigitos} setModalidade={setModalidade}/>}
             {activeStep===1 && modalidade==='numeros' && <Numeros digitos={digitos}/>}
-            {activeStep===1 && modalidade==='grupo' && <Grupos/>}
+            {activeStep===1 && modalidade==='grupo' && <Grupos digitos={digitos}/>}
+            {activeStep===2 && <Quantia/>}
           </Container>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
