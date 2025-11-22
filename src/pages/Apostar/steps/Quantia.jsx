@@ -6,9 +6,9 @@ import { Grid, Button, Typography, Alert, Card, Box, TextField, FormControl, For
 
 export default function Quantia(){
   
-    const [quantiaInput1, setQuantiaInput1] = useState(null)
-    const [quantiaInput2, setQuantiaInput2] = useState(null)
-    const [quantiaInput3, setQuantiaInput3] = useState(null)
+    const [quantiaInput1, setQuantiaInput1] = useState(0)
+    const [quantiaInput2, setQuantiaInput2] = useState(0)
+    const [quantiaInput3, setQuantiaInput3] = useState(0)
 
     return(
         <>
@@ -20,9 +20,9 @@ export default function Quantia(){
                     gap: 2,                    
                 }}
             > 
-                <QuantiaInput quantiaInput={quantiaInput1} setQuantiaInput1={setQuantiaInput1}/>
-                <QuantiaInput quantiaInput={quantiaInput2} setQuantiaInput1={setQuantiaInput2}/>
-                <QuantiaInput quantiaInput={quantiaInput3} setQuantiaInput1={setQuantiaInput3}/>               
+                <QuantiaInput quantiaInput={quantiaInput1} setQuantiaInput={setQuantiaInput1}/>
+                <QuantiaInput quantiaInput={quantiaInput2} setQuantiaInput={setQuantiaInput2}/>
+                <QuantiaInput quantiaInput={quantiaInput3} setQuantiaInput={setQuantiaInput3}/>               
             </Box>            
         </>
     )

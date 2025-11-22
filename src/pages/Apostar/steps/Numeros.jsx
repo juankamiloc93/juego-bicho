@@ -63,8 +63,7 @@ export default function Numeros(porps){
                 sx={{
                     display: "flex",
                     justifyContent: "center",
-                    gap: 2,
-                    pt: 5   
+                    gap: 2,                    
                 }}
             >
                 {numeros.map((numero, index) => {

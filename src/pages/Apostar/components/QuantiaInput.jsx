@@ -29,8 +29,7 @@ export default function QuantiaInput(props){
                     gap: 2,
                     pt: 5   
                 }}
-            >
-                <FormLabel>Quantia 1 ao 1</FormLabel>
+            >               
                 <TextField  
                     type="number"                              
                     label="Numero"
