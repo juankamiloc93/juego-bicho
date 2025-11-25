@@ -15,12 +15,13 @@ import Modalidade from "./steps/Modalidade";
 import Numeros from "./steps/Numeros";
 import Grupos from "./steps/Grupos"
 import Quantia from "./steps/Quantia";
+import Sorteio from "./steps/Sorteio";
 import { NoMealsOuline } from "@mui/icons-material";
 
 export default function(){
 
     const [activeStep, setActiveStep] = useState(0);
-    const steps = ["Modalidade", "Números", "Posição, quantia e divisão", "Tipo de sorteio", "Confirme"];
+    const steps = ["Modalidade", "Números", "Quantia", "Tipo de sorteio", "Confirme"];
     
     const [modalidade, setModalidade] = useState(NoMealsOuline)  
     const [digitos, setDigitos] = useState(null)
@@ -63,14 +64,8 @@ export default function(){
           <Button onClick={handleReset}>Reiniciar</Button>
         </>
       ) : (
-        <>        
-          <Container sx={{ mt: 2, mb: 1 }}>
-            {activeStep===0 && <Modalidade handleNext={handleNext} setDigitos={setDigitos} setModalidade={setModalidade}/>}
-            {activeStep===1 && modalidade==='numeros' && <Numeros digitos={digitos}/>}
-            {activeStep===1 && modalidade==='grupo' && <Grupos digitos={digitos}/>}
-            {activeStep===2 && <Quantia/>}
-          </Container>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+        <>  
+           <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-around" ,pt: 2 }}>
             <Button
               color="inherit"
               disabled={activeStep === 0}
@@ -82,7 +77,14 @@ export default function(){
             <Button onClick={handleNext}>
               {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
             </Button>
-          </Box>
+          </Box>      
+          <Container sx={{ mt: 2, mb: 1, height: 'calc(100vh - 270px)', overflow: 'auto' }}>
+            {activeStep===0 && <Modalidade handleNext={handleNext} setDigitos={setDigitos} setModalidade={setModalidade}/>}
+            {activeStep===1 && modalidade==='numeros' && <Numeros digitos={digitos}/>}
+            {activeStep===1 && modalidade==='grupo' && <Grupos digitos={digitos}/>}
+            {activeStep===2 && <Quantia/>}
+            {activeStep===3 && <Sorteio/>}
+          </Container>        
          
         </>
       )}

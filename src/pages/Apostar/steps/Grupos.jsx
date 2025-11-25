@@ -67,7 +67,7 @@ export default function Grupos(props) {
   )
 
   return (
-    <Container sx={{ mt: 4 }}>
+    <Container sx={{ m: 1 }}>
       {/*<Box sx={{ mt: 3 }}>
         <Typography variant="body1">
           Seleccionados: {selectedGrupo.join(", ") || "ninguno"}
@@ -79,7 +79,7 @@ export default function Grupos(props) {
             display: "flex",
             justifyContent: "center",
             gap: 2,
-            pt: 5   
+            pb: 2           
         }}
       >
         {selectedGrupo.map((numero, index) => {         
