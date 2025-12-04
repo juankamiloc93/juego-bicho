@@ -11,7 +11,9 @@ import {
   Checkbox
 } from "@mui/material";
 
-export default function Sorteio(){
+export default function Sorteio(props){
+
+    const {checked, setChecked} = props;
 
     const sorteios = [
         {nome: "Sorteio 1"},
@@ -22,9 +24,7 @@ export default function Sorteio(){
         {nome: "Sorteio 6"},
         {nome: "Sorteio 7"},
         {nome: "Sorteio 8"},
-    ];
-   
-    const [checked, setChecked] = useState([]);
+    ];  
 
     const toggle = (value) => {
         setChecked((prev) =>

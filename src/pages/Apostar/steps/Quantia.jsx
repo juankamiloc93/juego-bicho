@@ -1,14 +1,11 @@
-import { useState } from "react";
-
 import QuantiaInput from "../components/QuantiaInput";
 
-import { Grid, Button, Typography, Alert, Card, Box, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import {  Box } from "@mui/material";
 
-export default function Quantia(){
+export default function Quantia(props){
   
-    const [quantiaInput1, setQuantiaInput1] = useState(0)
-    const [quantiaInput2, setQuantiaInput2] = useState(0)
-    const [quantiaInput3, setQuantiaInput3] = useState(0)
+    const {quantiaInput1, setQuantiaInput1, quantiaInput2, setQuantiaInput2, quantiaInput3, setQuantiaInput3} = props
+   
 
     return(
         <>

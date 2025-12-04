@@ -40,10 +40,9 @@ const grupos = [
 
 export default function Grupos(props) {
 
-  const { digitos } = props
+  const { digitos, selectedGrupo, setSelectedGrupo } = props
 
   const [selectedIds, setSelectedIds] = useState([]);
-  const [selectedGrupo, setSelectedGrupo] = useState([]);
 
   const images = import.meta.glob("../../../assets/animales/*", { eager: true });
   

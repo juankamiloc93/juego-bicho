@@ -17,10 +17,9 @@ import Teclado from "../components/Teclado";
 
 export default function Numeros(porps){
 
-    const { digitos } = porps;
+    const { digitos, numeros, setNumeros } = porps;
 
-    const [numeroInput, setNumeroInput] = useState("")
-    const [numeros, setNumeros] = useState([])
+    const [numeroInput, setNumeroInput] = useState("") 
 
     const onChangeNumeroInput = (e) => {
         if(e.target.value.length<=digitos){
