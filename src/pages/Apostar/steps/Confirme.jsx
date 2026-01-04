@@ -19,6 +19,9 @@ export default function Confirme(props){
         quantiaInput1,
         quantiaInput2,
         quantiaInput3,
+        quantiaInput4,
+        quantiaInput5,
+        quantiaInput6,
         sorteiochecked
     } = props
 
@@ -45,6 +48,15 @@ export default function Confirme(props){
              <Box>
                  <strong>quantiaInput3: </strong><span>{quantiaInput3}</span>
             </Box>
+            <Box>
+            <Box>
+                 <strong>quantiaInput4: </strong><span>{quantiaInput4}</span>
+            </Box>
+                <strong>quantiaInput5: </strong><span>{quantiaInput5}</span>
+            </Box>
+             <Box>
+                 <strong>quantiaInput6: </strong><span>{quantiaInput6}</span>
+            </Box>           
             <Box>
                  <strong>sorteiochecked: </strong>
                 {sorteiochecked.map((sortio, index) => (                             

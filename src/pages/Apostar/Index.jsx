@@ -30,6 +30,9 @@ export default function(){
     const [quantiaInput1, setQuantiaInput1] = useState(0)
     const [quantiaInput2, setQuantiaInput2] = useState(0)
     const [quantiaInput3, setQuantiaInput3] = useState(0)
+    const [quantiaInput4, setQuantiaInput4] = useState(0)
+    const [quantiaInput5, setQuantiaInput5] = useState(0)
+    const [quantiaInput6, setQuantiaInput6] = useState(0)
     const [sorteiochecked, setSorteioChecked] = useState([]);
 
     const handleNext = () => {
@@ -95,6 +98,12 @@ export default function(){
                                   setQuantiaInput2={setQuantiaInput2}
                                   quantiaInput3={quantiaInput3}
                                   setQuantiaInput3={setQuantiaInput3}
+                                  quantiaInput4={quantiaInput4}
+                                  setQuantiaInput4={setQuantiaInput4}
+                                  quantiaInput5={quantiaInput5}
+                                  setQuantiaInput5={setQuantiaInput5}
+                                  quantiaInput6={quantiaInput6}
+                                  setQuantiaInput6={setQuantiaInput6}
                                 />}
             {activeStep===3 && <Sorteio checked={sorteiochecked} setChecked={setSorteioChecked}/>}
             {activeStep===4 && <Confirme 
@@ -104,6 +113,9 @@ export default function(){
                                   quantiaInput1={quantiaInput1}
                                   quantiaInput2={quantiaInput2}
                                   quantiaInput3={quantiaInput3}
+                                  quantiaInput4={quantiaInput4}
+                                  quantiaInput5={quantiaInput5}
+                                  quantiaInput6={quantiaInput6}
                                   sorteiochecked={sorteiochecked}
                               />}
           </Container>        
