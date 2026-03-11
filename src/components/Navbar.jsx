@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 const navItems = [
   { label: 'Inicio', path: '/' },
   { label: 'Apostar', path: '/apostar' }, 
+  { label: 'Usuarios', path: '/usuarios' },
 ];
 
 function Navbar() {
