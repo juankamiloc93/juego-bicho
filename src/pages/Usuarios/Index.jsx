@@ -1,5 +1,5 @@
 import Tabla from '@/components/Tabla';
-import useUsuariosHttp from '@/hooks/http/useProductosHttp';
+import useUsuariosHttp from '@/hooks/http/useUsuariosHttp';
 
 import columnas from './columnas';
 

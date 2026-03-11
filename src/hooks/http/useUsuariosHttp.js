@@ -13,7 +13,7 @@ export default function useUsuariosHttp() {
     setCargando(true);
     setError(null);
     try {
-      const { data } = await axios.get(`${apiBaseUrl}/usuarios`);      
+      const { data } = await axios.get(`${apiBaseUrl}/users`);      
       setUsuarios(data);   
       localStorage.setItem("usuarios", JSON.stringify(data));
     } catch (err) {
