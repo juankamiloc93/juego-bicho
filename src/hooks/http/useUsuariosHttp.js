@@ -8,7 +8,7 @@ export default function useUsuariosHttp() {
 
   const apiBaseUrl = 'http://localhost:8000/api';
 
-  // 📌 Obtener productos
+
   const fetchUsuarios = useCallback(async () => {    
     setCargando(true);
     setError(null);
@@ -23,12 +23,11 @@ export default function useUsuariosHttp() {
     }
   }, []);
 
-  // 📌 Crear producto
   const crearUsuario = async (nuevoUsuario) => {
     setCargando(true);
     setError(null);
     try {
-      await axios.post(`${apiBaseUrl}/usuarios`, nuevoUsuario);
+      await axios.post(`${apiBaseUrl}/users`, nuevoUsuario);
       await fetchUsuarios(); // refrescar lista
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -37,12 +36,12 @@ export default function useUsuariosHttp() {
     }
   };
 
-  // 📌 Actualizar producto
+
   const actualizarUsuario = async (id, datosActualizados) => {
     setCargando(true);
     setError(null);
     try {
-      await axios.put(`${apiBaseUrl}/usuarios/${id}`, datosActualizados);
+      await axios.put(`${apiBaseUrl}/users/${id}`, datosActualizados);
       await fetchUsuarios();
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -51,12 +50,12 @@ export default function useUsuariosHttp() {
     }
   };
 
-  // 📌 Eliminar producto
+
   const eliminarUsuario = async (id) => {
     setCargando(true);
     setError(null);
     try {
-      await axios.delete(`${apiBaseUrl}/usuarios/${id}`);
+      await axios.delete(`${apiBaseUrl}/users/${id}`);
       await fetchUsuarios();
     } catch (err) {
       setError(err.response?.data?.message || err.message);

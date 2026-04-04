@@ -1,28 +1,16 @@
 const columnas = [   
     {
-        campo: 'qr',
-        tipo: 'imagen'
-    },
-    {
-        campo: 'nombre',
+        campo: 'name',
         tipo: 'texto'
     },
     {
-        campo: 'codigo',
+        campo: 'email',
         tipo: 'texto'
-    },
+    }, 
     {
-        campo: 'categoria',
+        campo: 'password',
         tipo: 'texto'
-    },
-    {
-        campo: 'stock',
-        tipo: 'texto'
-    },
-    {
-        campo: 'precio',
-        tipo: 'texto'
-    },
+    }, 
 ];
 
 export default columnas;

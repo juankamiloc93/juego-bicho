@@ -77,7 +77,7 @@ export default function Form(props){
 
             <Card>
                 <Box  sx={{ ml: 3}}>
-                    <h2 sx={{ mr: 3}}  >{registro? 'Editar': 'Nuevo'} producto</h2>     
+                    <h2 sx={{ mr: 3}}  >{registro? 'Editar': 'Novo'} producto</h2>     
                 </Box>                
                  <Grid container spacing={2} sx={{ mb: 2}} justifyContent='center'>
                     {columnas.map(columna => 

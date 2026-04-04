@@ -39,7 +39,7 @@ function Filtros(props){
   }
 
   const nuevo = () => {
-    navigate('./nuevo')
+    navigate('./novo')
   }
 
   return(
@@ -52,7 +52,7 @@ function Filtros(props){
               <TextField
                 fullWidth
                 label={`Filtrar por ${columna.campo}`}
-                variant="outlined"
+                variant="filled"
                 name={columna.campo}
                 value= {filtros[columna.campo]}
                 onChange={handleChangeFiltros}
