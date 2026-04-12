@@ -5,15 +5,20 @@ const columnas = [
         tipo: 'texto'
     },
     {
-        campo: 'email',
-        label: 'Email',
+        campo: 'value',
+        label: 'Valor',
         tipo: 'texto'
     }, 
     {
-        campo: 'password',
-        label: 'Senha',
+        campo: 'multiplicador',
+        label: 'Multiplicado',
         tipo: 'texto'
     }, 
+    {
+        campo: 'digits',
+        label: 'digitos',
+        tipo: 'texto'
+    }
 ];
 
 export default columnas;

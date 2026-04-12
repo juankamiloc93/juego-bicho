@@ -13,6 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import Filtros from './Filtros';
+import ModalConfirmacion from './ModalConfirmacion';
 
 function Acciones(props){
 
@@ -32,9 +33,13 @@ function Acciones(props){
       </IconButton>
     </Tooltip>
     <Tooltip title="Eliminar">
-      <IconButton color="error" onClick={() => console.log("Eliminar", registro.id)}>
-        <DeleteIcon />
-      </IconButton>
+          <ModalConfirmacion
+              mensaje='¿Estás seguro de que deseas eliminar este elemento?'
+              color='error'
+              tooltip='Vender'
+            >             
+              <DeleteIcon />              
+            </ModalConfirmacion>
     </Tooltip>
   </>
 }
@@ -125,7 +130,7 @@ export default function Tabla(props) {
                     sx={{ fontWeight: 'bold', cursor: 'pointer'}} 
                     onClick={() => handleSort(columna.campo)
                   }>
-                    {columna.campo}
+                    {columna.label}
                     {orderBy === columna.campo && (order === 'asc' ? ' 🔼' : ' 🔽')}
                   </TableCell>
                 ))}

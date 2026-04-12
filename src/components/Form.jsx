@@ -22,7 +22,7 @@ function Campo(props){
         case 'texto':
             return <>     
                 <TextField                                
-                    label={columna.campo}
+                    label={columna.label}
                     variant="outlined"
                     {...register(columna.campo, { required: `El ${columna.campo} es obligatorio` })}
                     defaultValue={registro? registro[columna.campo]: null}
