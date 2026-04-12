@@ -2,20 +2,19 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 export default function useUsuariosHttp() {
-  const [usuarios, setUsuarios] = useState([]);
+  const [numeros, setNumeros] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
 
   const apiBaseUrl = 'http://localhost:8000/api';
-  const url = 'users'
+  const url = 'modes'
 
-
-  const fetchUsuarios = useCallback(async () => {    
+  const fetchNumeros = useCallback(async () => {    
     setCargando(true);
     setError(null);
     try {
       const { data } = await axios.get(`${apiBaseUrl}/${url}`);      
-      setUsuarios(data);   
+      setNumeros(data);   
       localStorage.setItem("usuarios", JSON.stringify(data));
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -24,12 +23,12 @@ export default function useUsuariosHttp() {
     }
   }, []);
 
-  const crearUsuario = async (nuevoUsuario) => {
+  const crearNumero = async (nuevo) => {
     setCargando(true);
     setError(null);
     try {
-      await axios.post(`${apiBaseUrl}/${url}`, nuevoUsuario);
-      await fetchUsuarios(); // refrescar lista
+      await axios.post(`${apiBaseUrl}/${url}`, nuevo);
+      await fetchNumeros(); // refrescar lista
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -38,12 +37,12 @@ export default function useUsuariosHttp() {
   };
 
 
-  const actualizarUsuario = async (id, datosActualizados) => {
+  const actualizarNumero = async (id, datosActualizados) => {
     setCargando(true);
     setError(null);
     try {
       await axios.put(`${apiBaseUrl}/${url}/${id}`, datosActualizados);
-      await fetchUsuarios();
+      await fetchNumeros();
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -52,12 +51,12 @@ export default function useUsuariosHttp() {
   };
 
 
-  const eliminarUsuario = async (id) => {
+  const eliminarNumero = async (id) => {
     setCargando(true);
     setError(null);
     try {
       await axios.delete(`${apiBaseUrl}/${url}/${id}`);
-      await fetchUsuarios();
+      await fetchNumeros();
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -67,16 +66,16 @@ export default function useUsuariosHttp() {
 
   // 📌 Cargar usuarios al inicio
   useEffect(() => {
-    fetchUsuarios();
-  }, [fetchUsuarios]);
+    fetchNumeros();
+  }, [fetchNumeros]);
 
   return {
-    usuarios,
+    numeros,
     cargando,
     error,
-    fetchUsuarios,
-    crearUsuario,
-    actualizarUsuario,
-    eliminarUsuario ,
+    fetchNumeros,
+    crearNumero,
+    actualizarNumero,
+    eliminarNumero ,
   };
 }

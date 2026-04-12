@@ -1,22 +1,21 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-export default function useUsuariosHttp() {
-  const [usuarios, setUsuarios] = useState([]);
+export default function useGruposHttp() {
+  const [grupos, setGrupos] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
 
   const apiBaseUrl = 'http://localhost:8000/api';
-  const url = 'users'
+  const url = 'modes'
 
-
-  const fetchUsuarios = useCallback(async () => {    
+  const fetchGrupos = useCallback(async () => {    
     setCargando(true);
     setError(null);
     try {
       const { data } = await axios.get(`${apiBaseUrl}/${url}`);      
-      setUsuarios(data);   
-      localStorage.setItem("usuarios", JSON.stringify(data));
+      setGrupos(data);   
+      localStorage.setItem("grupos", JSON.stringify(data));
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -24,12 +23,12 @@ export default function useUsuariosHttp() {
     }
   }, []);
 
-  const crearUsuario = async (nuevoUsuario) => {
+  const crearGrupo = async (nuevoGrupo) => {
     setCargando(true);
     setError(null);
     try {
-      await axios.post(`${apiBaseUrl}/${url}`, nuevoUsuario);
-      await fetchUsuarios(); // refrescar lista
+      await axios.post(`${apiBaseUrl}/${url}`, nuevoGrupo);
+      await fetchGrupos(); // refrescar lista
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -38,12 +37,12 @@ export default function useUsuariosHttp() {
   };
 
 
-  const actualizarUsuario = async (id, datosActualizados) => {
+  const actualizarGrupo = async (id, datosActualizados) => {
     setCargando(true);
     setError(null);
     try {
       await axios.put(`${apiBaseUrl}/${url}/${id}`, datosActualizados);
-      await fetchUsuarios();
+      await fetchGrupos();
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -52,7 +51,7 @@ export default function useUsuariosHttp() {
   };
 
 
-  const eliminarUsuario = async (id) => {
+  const eliminarGrupo = async (id) => {
     setCargando(true);
     setError(null);
     try {
@@ -67,16 +66,16 @@ export default function useUsuariosHttp() {
 
   // 📌 Cargar usuarios al inicio
   useEffect(() => {
-    fetchUsuarios();
-  }, [fetchUsuarios]);
+    fetchGrupos();
+  }, [fetchGrupos]);
 
   return {
-    usuarios,
+    grupos,
     cargando,
     error,
-    fetchUsuarios,
-    crearUsuario,
-    actualizarUsuario,
-    eliminarUsuario ,
+    fetchGrupos,
+    crearGrupo,
+    actualizarGrupo,
+    eliminarGrupo,
   };
 }
