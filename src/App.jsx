@@ -7,7 +7,8 @@ import Apostar from './pages/Apostar';
 import Usuarios from './pages/Usuarios/Index';
 import UsuarioNovo from './pages/Usuarios/Novo';
 import UsuarioEditar from './pages/Usuarios/Editar';
-import Grupos from './pages/Modos/Grupos'
+import Grupos from './pages/Modos/Grupos';
+import Numeros from './pages/Modos/Numeros';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/usuarios/novo" element={<UsuarioNovo />} />    
         <Route path="/usuarios/editar" element={<UsuarioEditar />} /> 
         <Route path="/modos/grupo" element={<Grupos/>}/>
+        <Route path="/modos/numeros" element={<Numeros/>}/>
       </Routes>
     </Router>
   );

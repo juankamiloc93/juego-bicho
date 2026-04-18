@@ -12,7 +12,7 @@ export default function Numeros() {
     crearUsuario,
     actualizarUsuario,
     eliminarUsuario,
-  } = useUsuariosHttp();    
+  } = useNumerosHttp();    
 
   return (  
     <>        
