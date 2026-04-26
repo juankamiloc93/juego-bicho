@@ -42,6 +42,9 @@ export default function(){
 
     const handleNext = () => {
     if(activeStep === steps.length - 1){
+      createBet({
+        
+      })
       alert('¡Apuesta realizada con éxito!')
     }else {
       setActiveStep((prev) => prev + 1);
