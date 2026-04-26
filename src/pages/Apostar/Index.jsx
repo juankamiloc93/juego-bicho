@@ -19,7 +19,12 @@ import Sorteio from "./steps/Sorteio";
 import Confirme from "./steps/Confirme";
 import { NoMealsOuline } from "@mui/icons-material";
 
+import useBetsHttp from "@/hooks/http/useBetsHttp";
+
+
 export default function(){
+
+    const { createBet } = useBetsHttp();
 
     const [activeStep, setActiveStep] = useState(0);
     const steps = ["Modalidade", "Números", "Quantia", "Tipo de sorteio", "Confirme"];
@@ -36,7 +41,12 @@ export default function(){
     const [sorteiochecked, setSorteioChecked] = useState([]);
 
     const handleNext = () => {
-    setActiveStep((prev) => prev + 1);
+    if(activeStep === steps.length - 1){
+      alert('¡Apuesta realizada con éxito!')
+    }else {
+      setActiveStep((prev) => prev + 1);
+    }
+    
   };
 
   const handleBack = () => {

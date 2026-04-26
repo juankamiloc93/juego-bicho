@@ -8,7 +8,7 @@ export default function useBetsHttp() {
 
   const apiBaseUrl = 'http://localhost:8000/api';
 
-  // 📌 Obtener bets
+  // Obtener bets
   const fetchBets = useCallback(async () => {    
     setCargando(true);
     setError(null);
@@ -23,7 +23,7 @@ export default function useBetsHttp() {
     }
   }, []);
 
-  // 📌 Crear bet
+  // Crear bet
   const createBet = async (newBet) => {
     setLoading(true);
     setError(null);
@@ -37,7 +37,7 @@ export default function useBetsHttp() {
     }
   };
 
-  // 📌 Actualizar producto
+  //  Actualizar bet
   const updateBet = async (id, updatedData) => {
     setLoading(true);
     setError(null);
@@ -51,13 +51,13 @@ export default function useBetsHttp() {
     }
   };
 
-  // 📌 Eliminar producto
+  //  Eliminar bet
   const deleteBet = async (id) => {
     setLoading(true);
     setError(null);
     try {
       await axios.delete(`${apiBaseUrl}/bets/${id}`);
-      await fetchProductos();
+      await fetchBets();
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -65,9 +65,9 @@ export default function useBetsHttp() {
     }
   };
 
-  // 📌 Cargar productos al inicio
+  // 📌 Cargar bets al inicio
   useEffect(() => {
-    fetchProductos();
+    fetchBets();
   }, []);
 
   return {
