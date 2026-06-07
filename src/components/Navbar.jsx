@@ -8,6 +8,7 @@ const navItems = [
   { label: 'Inicio', path: '/' },
   { label: 'Apostar', path: '/apostar' }, 
   { label: 'Usuarios', path: '/usuarios' },
+  { label: 'Clientes', path: '/clientes' },
 ];
 
 function Navbar() {

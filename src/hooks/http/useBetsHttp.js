@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useToken } from "@/hooks/useToken";
 import axios from "axios";
 
 export default function useBetsHttp() {
@@ -8,27 +9,36 @@ export default function useBetsHttp() {
 
   const apiBaseUrl = 'http://localhost:8000/api';
 
+  const getHeaders = async () => {
+    const { getToken } = useToken();
+    const token = await getToken();
+    const headers = { Authorization: `Bearer ${token}` }
+    return headers;
+  };
+
   // Obtener bets
-  const fetchBets = useCallback(async () => {    
-    setCargando(true);
+  const fetchBets = useCallback(async () => {
+    const headers = await getHeaders();
+    setLoading(true);
     setError(null);
     try {
-      const { data } = await axios.get(`${apiBaseUrl}/bets`);      
+      const { data } = await axios.get(`${apiBaseUrl}/bets`, { headers });
       setBets(data);
       localStorage.setItem("bets", JSON.stringify(data));
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
-      setCargando(false);
+      setLoading(false);
     }
   }, []);
 
   // Crear bet
   const createBet = async (newBet) => {
+    const headers = await getHeaders();
     setLoading(true);
     setError(null);
     try {
-      await axios.post(`${apiBaseUrl}/bets`, newBet);
+      await axios.post(`${apiBaseUrl}/bets`, newBet, { headers });
       await fetchBets(); // refrescar lista
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -39,24 +49,26 @@ export default function useBetsHttp() {
 
   //  Actualizar bet
   const updateBet = async (id, updatedData) => {
+    const headers = await getHeaders();
     setLoading(true);
     setError(null);
     try {
-      await axios.put(`${apiBaseUrl}/bets/${id}`, updatedData);
+      await axios.put(`${apiBaseUrl}/bets/${id}`, updatedData, { headers });
       await fetchBets();
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
-      setCargando(false);
+      setLoading(false);
     }
   };
 
   //  Eliminar bet
   const deleteBet = async (id) => {
+    const headers = await getHeaders();
     setLoading(true);
     setError(null);
     try {
-      await axios.delete(`${apiBaseUrl}/bets/${id}`);
+      await axios.delete(`${apiBaseUrl}/bets/${id}`, { headers });
       await fetchBets();
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -68,7 +80,7 @@ export default function useBetsHttp() {
   // 📌 Cargar bets al inicio
   useEffect(() => {
     fetchBets();
-  }, []);
+  }, [fetchBets]);
 
   return {
     bets,

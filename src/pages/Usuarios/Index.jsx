@@ -17,6 +17,7 @@ export default function Productos() {
   return (  
     <>        
       <Tabla
+        carregando={cargando}
         columnas={columnas}
         registros={usuarios}
       />

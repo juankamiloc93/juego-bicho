@@ -9,12 +9,12 @@ export default function useGruposHttp() {
   const apiBaseUrl = 'http://localhost:8000/api';
   const url = 'modes'
 
-  const fetchGrupos = useCallback(async () => {    
+  const fetchGrupos = useCallback(async () => {
     setCargando(true);
     setError(null);
     try {
-      const { data } = await axios.get(`${apiBaseUrl}/${url}`);      
-      setGrupos(data);   
+      const { data } = await axios.get(`${apiBaseUrl}/${url}`);
+      setGrupos(data);
       localStorage.setItem("grupos", JSON.stringify(data));
     } catch (err) {
       setError(err.response?.data?.message || err.message);

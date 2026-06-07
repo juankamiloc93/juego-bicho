@@ -64,42 +64,45 @@ function TipoItem({ tipo, campo }) {
 
 export default function Tabla(props) {
 
-  const { columnas, registros } = props
+  const { columnas, registros, carregando  } = props
 
   const [registrosFiltrados, setRegistrosFiltrados] = useState([]);
   const [orderBy, setOrderBy] = useState(null); // columna actual
   const [order, setOrder] = useState('asc'); // asc o desc
 
   useEffect(()=> {
-    setRegistrosFiltrados(registros);
+    setRegistrosFiltrados(Array.isArray(registros) ? registros : []);
   }, [registros])
 
   const filtrar = (filtros) => {
-    let filtrados = registros;
+    let filtrados = Array.isArray(registros) ? registros : [];
     for (let clave in filtros) {
       if (filtros[clave]) {
         const valorFiltro = filtros[clave].toLowerCase();
-        filtrados = filtrados.filter(r =>
-          String(r[clave]).toLowerCase().includes(valorFiltro)
-        );
+        filtrados = filtrados.filter(r => {
+          if (!r || r[clave] === undefined || r[clave] === null) return false;
+          return String(r[clave]).toLowerCase().includes(valorFiltro);
+        });
       }
     }
     setRegistrosFiltrados(filtrados);
   };
 
-  const sortedRegistros = [...registrosFiltrados].sort((a, b) => {
-    if (!orderBy) return 0; // si no hay columna seleccionada
-    const valA = a[orderBy];
-    const valB = b[orderBy];
+  const sortedRegistros = Array.isArray(registrosFiltrados) 
+    ? [...registrosFiltrados].sort((a, b) => {
+        if (!orderBy) return 0; // si no hay columna seleccionada
+        const valA = a[orderBy];
+        const valB = b[orderBy];
 
-    if (typeof valA === 'number' && typeof valB === 'number') {
-      return order === 'asc' ? valA - valB : valB - valA;
-    }
+        if (typeof valA === 'number' && typeof valB === 'number') {
+          return order === 'asc' ? valA - valB : valB - valA;
+        }
 
-    return order === 'asc'
-      ? String(valA).localeCompare(String(valB))
-      : String(valB).localeCompare(String(valA));
-  });
+        return order === 'asc'
+          ? String(valA).localeCompare(String(valB))
+          : String(valB).localeCompare(String(valA));
+      })
+    : [];
 
   const handleSort = (campo) => {
     if (orderBy === campo) {
@@ -136,8 +139,9 @@ export default function Tabla(props) {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>
-              {sortedRegistros.map((registro) => (
+            <TableBody>  
+              {carregando && <p>carregando...</p>}           
+              {!carregando && sortedRegistros.map((registro) => (
                 <TableRow key={registro.id}>
                   <TableCell>
                     <Acciones registro={registro}/>

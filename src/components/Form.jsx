@@ -53,7 +53,7 @@ function Campo(props){
 
 export default function Form(props){
 
-    const { columnas, registro, submitFuncion } = props
+    const { columnas, registro, submitFuncion, titulo = 'producto' } = props
 
     const { register, handleSubmit, setValue, getValues, watch, formState: { errors } } = useForm();    
 
@@ -61,7 +61,9 @@ export default function Form(props){
 
     const onSubmit = (data) => {
         console.log("Datos enviados:", data);
-        submitFuncion(data)       
+        if (submitFuncion) {
+            submitFuncion(data);
+        }
     };
 
     const onAtras = () => {
@@ -77,7 +79,7 @@ export default function Form(props){
 
             <Card>
                 <Box  sx={{ ml: 3}}>
-                    <h2 sx={{ mr: 3}}  >{registro? 'Editar': 'Novo'} producto</h2>     
+                    <h2 sx={{ mr: 3}}  >{registro && Object.keys(registro).length > 0 ? 'Editar' : 'Novo'} {titulo}</h2>     
                 </Box>                
                  <Grid container spacing={2} sx={{ mb: 2}} justifyContent='center'>
                     {columnas.map(columna => 
@@ -100,7 +102,7 @@ export default function Form(props){
                         Regresar
                     </Button>
                      <Button type="submit" variant="contained" color="success" sx={{ width: 100}}>
-                        Crear
+                        {registro && Object.keys(registro).length > 0 ? 'Guardar' : 'Crear'}
                     </Button>
                 </Grid>
             </Card>

@@ -31,7 +31,7 @@ const RenderAuthentication = () => {
 
   const [isLoading, setIsLoading] = useState(true)
 
-  const { getToken, getCurrentUser } = useToken()  
+  const { getToken, getCurrentUser, clearStorage } = useToken()  
 
   useEffect(() => {
 
@@ -41,20 +41,17 @@ const RenderAuthentication = () => {
 
 
   const getTokenFromLoaclStorage = async () => {
-
     const token = await getToken()
     const user = await getCurrentUser()
     
-    if(token){
+    if (token && user) {
       setIsLoggedOnRedux()
-    }
-
-    if(user){
       addUserOnRedux(user.user)
+    } else {
+      // Si no hay token o está vencido, nos aseguramos de limpiar el storage
+      await clearStorage() 
     }
-
     setIsLoading(false)
-    
   }
 
   return <>

@@ -1,93 +1,98 @@
 import { useState, useEffect, useCallback } from "react";
 import { useToken } from "@/hooks/useToken";
+import { useDispatch } from "react-redux";
+import { setClients } from "@/redux/feactures/clients";
 import axios from "axios";
 
-export default function useUsuariosHttp() {
-  const [usuarios, setUsuarios] = useState([]);
+export default function useClientesHttp() {
+  const [clientes, setClientesLocal] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
   const apiBaseUrl = 'http://localhost:8000/api';
-  const url = 'users'
+  const url = 'clients';
 
   const getHeaders = async () => {
     const { getToken } = useToken();
     const token = await getToken();
-    const headers = { Authorization: `Bearer ${token}` }
-    return headers
-  }
+    const headers = { Authorization: `Bearer ${token}` };
+    return headers;
+  };
 
-  const fetchUsuarios = useCallback(async () => {
+  const fetchClientes = useCallback(async () => {
     const headers = await getHeaders();
     setCargando(true);
     setError(null);
     try {
       const { data } = await axios.get(`${apiBaseUrl}/${url}`, { headers });
-      setUsuarios(data);
-      localStorage.setItem("usuarios", JSON.stringify(data));
+      setClientesLocal(data);
+      dispatch(setClients(data));
+      localStorage.setItem("clientes", JSON.stringify(data));
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
       setCargando(false);
     }
-  }, []);
+  }, [dispatch]);
 
-  const crearUsuario = async (nuevoUsuario) => {
+  const crearCliente = async (nuevoCliente) => {
     const headers = await getHeaders();
     setCargando(true);
     setError(null);
     try {
-      await axios.post(`${apiBaseUrl}/${url}`, nuevoUsuario, { headers });
-      await fetchUsuarios(); // refrescar lista
+      await axios.post(`${apiBaseUrl}/${url}`, nuevoCliente, { headers });
+      await fetchClientes(); // refrescar lista
     } catch (err) {
       setError(err.response?.data?.message || err.message);
+      throw err;
     } finally {
       setCargando(false);
     }
   };
 
-
-  const actualizarUsuario = async (id, datosActualizados) => {
+  const actualizarCliente = async (id, datosActualizados) => {
     const headers = await getHeaders();
     setCargando(true);
     setError(null);
     try {
       await axios.put(`${apiBaseUrl}/${url}/${id}`, datosActualizados, { headers });
-      await fetchUsuarios();
+      await fetchClientes();
     } catch (err) {
       setError(err.response?.data?.message || err.message);
+      throw err;
     } finally {
       setCargando(false);
     }
   };
 
-
-  const eliminarUsuario = async (id) => {
+  const eliminarCliente = async (id) => {
     const headers = await getHeaders();
     setCargando(true);
     setError(null);
     try {
       await axios.delete(`${apiBaseUrl}/${url}/${id}`, { headers });
-      await fetchUsuarios();
+      await fetchClientes();
     } catch (err) {
       setError(err.response?.data?.message || err.message);
+      throw err;
     } finally {
       setCargando(false);
     }
   };
 
-  // 📌 Cargar usuarios al inicio
+  // 📌 Cargar clientes al inicio
   useEffect(() => {
-    fetchUsuarios();
-  }, [fetchUsuarios]);
+    fetchClientes();
+  }, [fetchClientes]);
 
   return {
-    usuarios,
+    clientes,
     cargando,
     error,
-    fetchUsuarios,
-    crearUsuario,
-    actualizarUsuario,
-    eliminarUsuario,
+    fetchClientes,
+    crearCliente,
+    actualizarCliente,
+    eliminarCliente,
   };
 }

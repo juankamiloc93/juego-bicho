@@ -9,12 +9,12 @@ export default function useUsuariosHttp() {
   const apiBaseUrl = 'http://localhost:8000/api';
   const url = 'modes'
 
-  const fetchNumeros = useCallback(async () => {    
+  const fetchNumeros = useCallback(async () => {
     setCargando(true);
     setError(null);
     try {
-      const { data } = await axios.get(`${apiBaseUrl}/${url}`);      
-      setNumeros(data);   
+      const { data } = await axios.get(`${apiBaseUrl}/${url}`);
+      setNumeros(data);
       localStorage.setItem("usuarios", JSON.stringify(data));
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -76,6 +76,6 @@ export default function useUsuariosHttp() {
     fetchNumeros,
     crearNumero,
     actualizarNumero,
-    eliminarNumero ,
+    eliminarNumero,
   };
 }
