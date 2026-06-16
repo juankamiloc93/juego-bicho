@@ -278,16 +278,21 @@ export default function Confirme(props){
                                     </Box>
                                 ) : (
                                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}> {/* Centered chips */}
-                                        {sorteiochecked.map((sortio, index) => (
-                                            <Chip
-                                                key={index}
-                                                icon={<CalendarTodayIcon fontSize="small" />}
-                                                label={sortio}
-                                                variant="outlined"
-                                                color="info"
-                                                sx={{ borderRadius: 2, fontWeight: 500 }}
-                                            />
-                                        ))}
+                                         {sorteiochecked.map((sortio, index) => {
+                                             const name = typeof sortio === 'object' && sortio !== null
+                                                 ? (sortio.name || sortio.nome || sortio.description || `Sorteio ${sortio.id}`)
+                                                 : String(sortio);
+                                             return (
+                                                 <Chip
+                                                     key={index}
+                                                     icon={<CalendarTodayIcon fontSize="small" />}
+                                                     label={name}
+                                                     variant="outlined"
+                                                     color="info"
+                                                     sx={{ borderRadius: 2, fontWeight: 500 }}
+                                                 />
+                                             );
+                                         })}
                                     </Box>
                                 )}
                             </CardContent>

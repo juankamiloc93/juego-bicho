@@ -47,8 +47,11 @@ export default function () {
 
   const handleNext = async () => {
     if (activeStep === steps.length - 1) {
-      const drawIds = sorteiochecked.map(name => {
-        const match = name.match(/\d+/);
+      const drawIds = sorteiochecked.map(item => {
+        if (typeof item === 'object' && item !== null) {
+          return item.id;
+        }
+        const match = String(item).match(/\d+/);
         return match ? parseInt(match[0], 10) : null;
       }).filter(id => id !== null);
 
@@ -123,7 +126,7 @@ export default function () {
             >
               Atrás
             </Button>
-            <Button 
+            <Button
               onClick={handleNext}
               disabled={activeStep === 0 && !clientId}
             >
@@ -135,7 +138,8 @@ export default function () {
             {activeStep === 1 && <Modalidade handleNext={handleNext} setDigitos={setDigitos} setModalidade={setModalidade} setModeId={setModeId} />}
             {activeStep === 2 && modalidade === 'numeros' && <Numeros digitos={digitos} numeros={numeros} setNumeros={setNumeros} />}
             {activeStep === 2 && modalidade === 'grupo' && <Grupos digitos={digitos} selectedGrupo={numeros} setSelectedGrupo={setNumeros} />}
-            {activeStep === 3 && <Quantia
+            {activeStep === 3 && <Sorteio checked={sorteiochecked} setChecked={setSorteioChecked} />}
+            {activeStep === 4 && <Quantia
               quantiaInput1={quantiaInput1}
               setQuantiaInput1={setQuantiaInput1}
               quantiaInput2={quantiaInput2}
@@ -149,7 +153,6 @@ export default function () {
               quantiaInput6={quantiaInput6}
               setQuantiaInput6={setQuantiaInput6}
             />}
-            {activeStep === 4 && <Sorteio checked={sorteiochecked} setChecked={setSorteioChecked} />}
             {activeStep === 5 && <Confirme
               clientId={clientId}
               modalidade={modalidade}
