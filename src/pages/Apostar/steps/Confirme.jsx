@@ -77,7 +77,8 @@ export default function Confirme(props){
         quantiaInput4 = 0,
         quantiaInput5 = 0,
         quantiaInput6 = 0,
-        sorteiochecked = []
+        sorteiochecked = [],
+        selectedHours = []
     } = props;
 
     const [cliente, setCliente] = useState(null);
@@ -295,7 +296,31 @@ export default function Confirme(props){
                                          })}
                                     </Box>
                                 )}
-                            </CardContent>
+                                 {selectedHours && selectedHours.length > 0 && (
+                                     <>
+                                         <Divider sx={{ my: 2 }} />
+                                         <Typography variant="body2" color="text.secondary" fontWeight="500" sx={{ mb: 1, textAlign: 'center' }}>
+                                             Horarios Seleccionados:
+                                         </Typography>
+                                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
+                                             {selectedHours.map((hour, idx) => {
+                                                 const parts = String(hour).split('_');
+                                                 const displayName = parts.length > 2 ? `${parts[1]} (${parts[2]})` : String(hour);
+                                                 return (
+                                                     <Chip
+                                                         key={idx}
+                                                         label={displayName}
+                                                         variant="filled"
+                                                         color="info"
+                                                         size="small"
+                                                         sx={{ borderRadius: 1.5, fontWeight: 500 }}
+                                                     />
+                                                 );
+                                             })}
+                                         </Box>
+                                     </>
+                                 )}
+                             </CardContent>
                         </Card>
                     </Stack>
                 </Grid>

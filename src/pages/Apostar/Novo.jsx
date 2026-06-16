@@ -44,6 +44,7 @@ export default function () {
   const [quantiaInput5, setQuantiaInput5] = useState(0)
   const [quantiaInput6, setQuantiaInput6] = useState(0)
   const [sorteiochecked, setSorteioChecked] = useState([]);
+  const [selectedHours, setSelectedHours] = useState([]);
 
   const handleNext = async () => {
     if (activeStep === steps.length - 1) {
@@ -67,7 +68,11 @@ export default function () {
         quantiaInput5: Number(quantiaInput5) || 0,
         quantiaInput6: Number(quantiaInput6) || 0,
         draw_ids: drawIds,
-        numbers: numbersPayload
+        numbers: numbersPayload,
+        hours: selectedHours.map(k => {
+          const parts = String(k).split('_');
+          return parts.length > 2 ? parts[2] : k;
+        })
       };
 
       try {
@@ -138,7 +143,7 @@ export default function () {
             {activeStep === 1 && <Modalidade handleNext={handleNext} setDigitos={setDigitos} setModalidade={setModalidade} setModeId={setModeId} />}
             {activeStep === 2 && modalidade === 'numeros' && <Numeros digitos={digitos} numeros={numeros} setNumeros={setNumeros} />}
             {activeStep === 2 && modalidade === 'grupo' && <Grupos digitos={digitos} selectedGrupo={numeros} setSelectedGrupo={setNumeros} />}
-            {activeStep === 3 && <Sorteio checked={sorteiochecked} setChecked={setSorteioChecked} />}
+            {activeStep === 3 && <Sorteio checked={sorteiochecked} setChecked={setSorteioChecked} selectedHours={selectedHours} setSelectedHours={setSelectedHours} />}
             {activeStep === 4 && <Quantia
               quantiaInput1={quantiaInput1}
               setQuantiaInput1={setQuantiaInput1}
@@ -165,6 +170,7 @@ export default function () {
               quantiaInput5={quantiaInput5}
               quantiaInput6={quantiaInput6}
               sorteiochecked={sorteiochecked}
+              selectedHours={selectedHours}
             />}
           </Container>
 
