@@ -6,7 +6,7 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    Checkbox,
+    Radio,
     CircularProgress,
     Alert,
     Chip
@@ -28,79 +28,35 @@ export default function Sorteio(props) {
     };
 
     const toggleDraw = (draw) => {
-        const drawName = getDrawName(draw);
-        const drawKeys = (draw.hours || []).map(h => getSelectionKey(draw, h.hour));
         const isChecked = checked.some((d) => d.id === draw.id);
-
         if (isChecked) {
             // Uncheck draw: remove from checked list and remove all its hours
-            setChecked((prev) => prev.filter((d) => d.id !== draw.id));
-            setSelectedHours((prev) => prev.filter((k) => !drawKeys.includes(k)));
+            setChecked([]);
+            setSelectedHours([]);
         } else {
-            // Check draw: add to checked list and add all its hours
-            setChecked((prev) => [...prev, draw]);
-            setSelectedHours((prev) => {
-                const nextHours = [...prev];
-                drawKeys.forEach((k) => {
-                    if (!nextHours.includes(k)) {
-                        nextHours.push(k);
-                    }
-                });
-                return nextHours;
-            });
+            // Check draw: set as the only checked draw and select its first hour if available
+            setChecked([draw]);
+            if (draw.hours && draw.hours.length > 0) {
+                const key = getSelectionKey(draw, draw.hours[0].hour);
+                setSelectedHours([key]);
+            } else {
+                setSelectedHours([]);
+            }
         }
     };
 
     const toggleHour = (draw, hourStr) => {
         const key = getSelectionKey(draw, hourStr);
-        const drawKeys = (draw.hours || []).map(h => getSelectionKey(draw, h.hour));
+        const isHourSelected = selectedHours.includes(key);
 
-        setSelectedHours((prev) => {
-            let nextHours;
-            if (prev.includes(key)) {
-                nextHours = prev.filter((k) => k !== key);
-            } else {
-                nextHours = [...prev, key];
-            }
-
-            // Check if any hour key for this draw is still selected
-            const hasAnyHour = nextHours.some((k) => drawKeys.includes(k));
-            if (hasAnyHour) {
-                // Ensure draw is checked
-                setChecked((prevChecked) => {
-                    if (!prevChecked.some((d) => d.id === draw.id)) {
-                        return [...prevChecked, draw];
-                    }
-                    return prevChecked;
-                });
-            } else {
-                // Ensure draw is unchecked
-                setChecked((prevChecked) => prevChecked.filter((d) => d.id !== draw.id));
-            }
-
-            return nextHours;
-        });
-    };
-
-    const allSelected = sorteios.length > 0 && sorteios.every((s) => checked.some((c) => c.id === s.id));
-    const someSelected = (checked.length > 0 || selectedHours.length > 0) && !allSelected;
-
-    const toggleAll = () => {
-        if (allSelected) {
-            setChecked([]);
+        if (isHourSelected) {
+            // Unselect hour and its draw
             setSelectedHours([]);
+            setChecked([]);
         } else {
-            setChecked([...sorteios]);
-            const allKeys = [];
-            sorteios.forEach((d) => {
-                (d.hours || []).forEach((h) => {
-                    const key = getSelectionKey(d, h.hour);
-                    if (!allKeys.includes(key)) {
-                        allKeys.push(key);
-                    }
-                });
-            });
-            setSelectedHours(allKeys);
+            // Select this specific hour, and its draw as the only selected draw
+            setChecked([draw]);
+            setSelectedHours([key]);
         }
     };
 
@@ -145,30 +101,9 @@ export default function Sorteio(props) {
                 justifyContent: "center",
             }}>
                 <List sx={{ width: "100%", maxWidth: 480, bgcolor: "background.paper", borderRadius: 2, boxShadow: 1 }}>
-                    <ListItem key="all" disablePadding divider>
-                        <ListItemButton onClick={toggleAll} sx={{ py: 1.5 }}>
-                            <ListItemIcon>
-                                <Checkbox
-                                    edge="start"
-                                    checked={allSelected}
-                                    indeterminate={someSelected}
-                                    disableRipple
-                                />
-                            </ListItemIcon>
-                            <ListItemText 
-                                primary="Todos" 
-                                primaryTypographyProps={{ fontWeight: 600 }}
-                            />
-                        </ListItemButton>
-                    </ListItem>
                     {sorteios.map((option) => {
                         const isChecked = checked.some((d) => d.id === option.id);
                         const drawHours = (option.hours || []).map((h) => h.hour);
-                        const selectedDrawHoursCount = drawHours.filter((h) => 
-                            selectedHours.includes(getSelectionKey(option, h))
-                        ).length;
-                        const isIndeterminate = selectedDrawHoursCount > 0 && selectedDrawHoursCount < drawHours.length;
-                        const isAllHoursChecked = drawHours.length > 0 && selectedDrawHoursCount === drawHours.length;
                         const drawName = getDrawName(option);
 
                         return (
@@ -180,10 +115,9 @@ export default function Sorteio(props) {
                                             sx={{ p: 0, "&:hover": { bgcolor: "transparent" } }}
                                         >
                                             <ListItemIcon sx={{ minWidth: 40 }}>
-                                                <Checkbox 
+                                                <Radio 
                                                     edge="start" 
-                                                    checked={isChecked || isAllHoursChecked}
-                                                    indeterminate={isIndeterminate}
+                                                    checked={isChecked}
                                                     disableRipple
                                                 />
                                             </ListItemIcon>
