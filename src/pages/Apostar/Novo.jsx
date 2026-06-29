@@ -62,10 +62,9 @@ export default function () {
   useEffect(() => {
     if (numeros.length > 0) {
       setQuantiaInput(prev => 
-        prev.map((item, idx) => {
-          if (!item.numero || !numeros.includes(item.numero)) {
-            const defaultNum = numeros[idx % numeros.length];
-            return { ...item, numero: String(defaultNum) };
+        prev.map((item) => {
+          if (item.numero && !numeros.map(String).includes(String(item.numero))) {
+            return { ...item, numero: "" };
           }
           return item;
         })

@@ -1,29 +1,29 @@
 import { Grid, Button, Typography, Alert, Card, Box, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Select, MenuItem, InputLabel } from "@mui/material";
 
 
-export default function QuantiaInput(props){
+export default function QuantiaInput(props) {
 
-    const { 
-        quantiaInput, 
-        setQuantiaInput, 
-        selectedNumero = "", 
-        setSelectedNumero, 
-        numeros = [], 
-        label = "Numero" 
+    const {
+        quantiaInput,
+        setQuantiaInput,
+        selectedNumero = "",
+        setSelectedNumero,
+        numeros = [],
+        label = "Numero"
     } = props
 
     const onChangeQuantiaInput = (e) => setQuantiaInput(Number(e.target.value))
 
 
     const addQuiantiaInput = () => {
-        if(quantiaInput<5000){ 
-            setQuantiaInput(q => q + 0.5); 
-        }   
+        if (quantiaInput < 5000) {
+            setQuantiaInput(q => q + 0.5);
+        }
     }
-    
+
     const subtractQuantiaInput = () => {
-         if(quantiaInput>0){
-            setQuantiaInput(q => q - 0.5); 
+        if (quantiaInput > 0) {
+            setQuantiaInput(q => q - 0.5);
         }
     }
 
@@ -34,7 +34,7 @@ export default function QuantiaInput(props){
                     display: "flex",
                     alignItems: "center",
                     gap: 2,
-                    pt: 5   
+                    pt: 5
                 }}
             >
                 <FormControl sx={{ minWidth: 150 }}>
@@ -60,8 +60,8 @@ export default function QuantiaInput(props){
                     </Select>
                 </FormControl>
 
-                <TextField  
-                    type="number"                              
+                <TextField
+                    type="number"
                     label={label}
                     variant="outlined"
                     inputProps={{
@@ -69,27 +69,29 @@ export default function QuantiaInput(props){
                         max: 5000,
                         step: 0.5
                     }}
-                    value={quantiaInput}   
-                    onChange={onChangeQuantiaInput}   
-                                
+                    value={quantiaInput}
+                    onChange={onChangeQuantiaInput}
+                    disabled={!selectedNumero}
                     sx={{
                         width: 200
                     }}
                 />
                 <Button
-                    variant="contained" 
+                    variant="contained"
                     color="error"
+                    disabled={!selectedNumero}
                     sx={{
                         width: 50,
                         height: 50
                     }}
                     onClick={subtractQuantiaInput}
                 >
-                        -
-                    </Button>
-                <Button 
+                    -
+                </Button>
+                <Button
                     variant="contained"
                     color="success"
+                    disabled={!selectedNumero}
                     sx={{
                         width: 50,
                         height: 50
