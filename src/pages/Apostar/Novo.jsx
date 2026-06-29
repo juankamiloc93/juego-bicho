@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -37,14 +37,25 @@ export default function () {
   const [modalidade, setModalidade] = useState(NoMealsOuline)
   const [digitos, setDigitos] = useState(null)
   const [numeros, setNumeros] = useState([])
-  const [quantiaInput1, setQuantiaInput1] = useState(0)
-  const [quantiaInput2, setQuantiaInput2] = useState(0)
-  const [quantiaInput3, setQuantiaInput3] = useState(0)
-  const [quantiaInput4, setQuantiaInput4] = useState(0)
-  const [quantiaInput5, setQuantiaInput5] = useState(0)
-  const [quantiaInput6, setQuantiaInput6] = useState(0)
+  const [quantiaInput, setQuantiaInput] = useState([0, 0, 0, 0, 0])
   const [sorteiochecked, setSorteioChecked] = useState([]);
   const [selectedHours, setSelectedHours] = useState([]);
+
+  const selectedDraw = sorteiochecked[0];
+  const positionsCount = selectedDraw ? (selectedDraw.positions ?? selectedDraw.position ?? 5) : 5;
+
+  useEffect(() => {
+    setQuantiaInput(prev => {
+      const targetLength = positionsCount;
+      if (prev.length === targetLength) return prev;
+      
+      const newQuantias = Array(targetLength).fill(0);
+      for (let i = 0; i < Math.min(prev.length, targetLength); i++) {
+        newQuantias[i] = prev[i];
+      }
+      return newQuantias;
+    });
+  }, [positionsCount]);
 
   const handleNext = async () => {
     if (activeStep === steps.length - 1) {
@@ -58,15 +69,29 @@ export default function () {
 
       const numbersPayload = numeros.map(n => parseInt(n, 10));
 
+      const payloadQuantias = {
+        quantiaInput1: 0,
+        quantiaInput2: 0,
+        quantiaInput3: 0,
+        quantiaInput4: 0,
+        quantiaInput5: 0,
+        quantiaInput6: 0,
+      };
+
+      if (Array.isArray(quantiaInput)) {
+        const pCount = quantiaInput.length;
+        for (let i = 0; i < pCount; i++) {
+          const key = `quantiaInput${i + 1}`;
+          if (i < 5) {
+            payloadQuantias[key] = Number(quantiaInput[i]) || 0;
+          }
+        }
+      }
+
       const payload = {
         client_id: clientId,
         mode_id: modeId,
-        quantiaInput1: Number(quantiaInput1) || 0,
-        quantiaInput2: Number(quantiaInput2) || 0,
-        quantiaInput3: Number(quantiaInput3) || 0,
-        quantiaInput4: Number(quantiaInput4) || 0,
-        quantiaInput5: Number(quantiaInput5) || 0,
-        quantiaInput6: Number(quantiaInput6) || 0,
+        ...payloadQuantias,
         draw_ids: drawIds,
         numbers: numbersPayload,
         hours: selectedHours.map(k => {
@@ -145,30 +170,15 @@ export default function () {
             {activeStep === 2 && modalidade === 'grupo' && <Grupos digitos={digitos} selectedGrupo={numeros} setSelectedGrupo={setNumeros} />}
             {activeStep === 3 && <Sorteio checked={sorteiochecked} setChecked={setSorteioChecked} selectedHours={selectedHours} setSelectedHours={setSelectedHours} />}
             {activeStep === 4 && <Quantia
-              quantiaInput1={quantiaInput1}
-              setQuantiaInput1={setQuantiaInput1}
-              quantiaInput2={quantiaInput2}
-              setQuantiaInput2={setQuantiaInput2}
-              quantiaInput3={quantiaInput3}
-              setQuantiaInput3={setQuantiaInput3}
-              quantiaInput4={quantiaInput4}
-              setQuantiaInput4={setQuantiaInput4}
-              quantiaInput5={quantiaInput5}
-              setQuantiaInput5={setQuantiaInput5}
-              quantiaInput6={quantiaInput6}
-              setQuantiaInput6={setQuantiaInput6}
+              quantiaInput={quantiaInput}
+              setQuantiaInput={setQuantiaInput}
             />}
             {activeStep === 5 && <Confirme
               clientId={clientId}
               modalidade={modalidade}
               digitos={digitos}
               numeros={numeros}
-              quantiaInput1={quantiaInput1}
-              quantiaInput2={quantiaInput2}
-              quantiaInput3={quantiaInput3}
-              quantiaInput4={quantiaInput4}
-              quantiaInput5={quantiaInput5}
-              quantiaInput6={quantiaInput6}
+              quantiaInput={quantiaInput}
               sorteiochecked={sorteiochecked}
               selectedHours={selectedHours}
             />}

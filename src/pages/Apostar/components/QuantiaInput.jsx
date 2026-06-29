@@ -3,7 +3,7 @@ import { Grid, Button, Typography, Alert, Card, Box, TextField, FormControl, For
 
 export default function QuantiaInput(props){
 
-    const { quantiaInput, setQuantiaInput } = props
+    const { quantiaInput, setQuantiaInput, label = "Numero" } = props
 
     const onChangeQuantiaInput = (e) => setQuantiaInput(Number(e.target.value))
 
@@ -32,7 +32,7 @@ export default function QuantiaInput(props){
             >               
                 <TextField  
                     type="number"                              
-                    label="Numero"
+                    label={label}
                     variant="outlined"
                     inputProps={{
                         min: 0,

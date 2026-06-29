@@ -64,19 +64,12 @@ const LotteryBall = ({ number, index }) => {
     );
 };
 
-export default function Confirme(props){
-
-    const { 
+export default function Confirme(props){    const { 
         clientId,
         modalidade,
         digitos,
         numeros = [],
-        quantiaInput1 = 0,
-        quantiaInput2 = 0,
-        quantiaInput3 = 0,
-        quantiaInput4 = 0,
-        quantiaInput5 = 0,
-        quantiaInput6 = 0,
+        quantiaInput = [],
         sorteiochecked = [],
         selectedHours = []
     } = props;
@@ -93,15 +86,32 @@ export default function Confirme(props){
         }
     }, [clientId]);
 
-    const quantiaList = [
-        { label: "1º Premio (Monto 1)", value: Number(quantiaInput1) || 0 },
-        { label: "2º Premio (Monto 2)", value: Number(quantiaInput2) || 0 },
-        { label: "3º Premio (Monto 3)", value: Number(quantiaInput3) || 0 },
-        { label: "4º Premio (Monto 4)", value: Number(quantiaInput4) || 0 },
-        { label: "5º Premio (Monto 5)", value: Number(quantiaInput5) || 0 },
-        { label: "1º al 5º (Monto 6)", value: Number(quantiaInput6) || 0 }
-    ];
-
+    const quantiaList = [];
+    if (Array.isArray(quantiaInput)) {
+        const len = quantiaInput.length;
+        for (let i = 0; i < len; i++) {
+            const label = `${i + 1}º Premio (Monto ${i + 1})`;
+            quantiaList.push({
+                label,
+                value: Number(quantiaInput[i]) || 0
+            });
+        }
+    } else {
+        const {
+            quantiaInput1 = 0,
+            quantiaInput2 = 0,
+            quantiaInput3 = 0,
+            quantiaInput4 = 0,
+            quantiaInput5 = 0,
+        } = props;
+        quantiaList.push(
+            { label: "1º Premio (Monto 1)", value: Number(quantiaInput1) || 0 },
+            { label: "2º Premio (Monto 2)", value: Number(quantiaInput2) || 0 },
+            { label: "3º Premio (Monto 3)", value: Number(quantiaInput3) || 0 },
+            { label: "4º Premio (Monto 4)", value: Number(quantiaInput4) || 0 },
+            { label: "5º Premio (Monto 5)", value: Number(quantiaInput5) || 0 }
+        );
+    }
     const activeQuantias = quantiaList.filter(q => q.value > 0);
     const subtotal = quantiaList.reduce((acc, curr) => acc + curr.value, 0);
     const totalSorteos = Array.isArray(sorteiochecked) ? sorteiochecked.length : 0;

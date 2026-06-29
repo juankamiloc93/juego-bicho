@@ -5,20 +5,15 @@ import {  Box } from "@mui/material";
 export default function Quantia(props){
   
     const { 
-        quantiaInput1,
-        setQuantiaInput1,
-        quantiaInput2,
-        setQuantiaInput2,
-        quantiaInput3, 
-        setQuantiaInput3,
-        quantiaInput4, 
-        setQuantiaInput4,
-        quantiaInput5, 
-        setQuantiaInput5,
-        quantiaInput6, 
-        setQuantiaInput6,
-    } = props
+        quantiaInput = [],
+        setQuantiaInput
+    } = props;
    
+    const handleUpdate = (index, value) => {
+        const next = [...quantiaInput];
+        next[index] = value;
+        setQuantiaInput(next);
+    };
 
     return(
         <>
@@ -30,12 +25,18 @@ export default function Quantia(props){
                     gap: 2,                    
                 }}
             > 
-                <QuantiaInput quantiaInput={quantiaInput1} setQuantiaInput={setQuantiaInput1}/>
-                <QuantiaInput quantiaInput={quantiaInput2} setQuantiaInput={setQuantiaInput2}/>
-                <QuantiaInput quantiaInput={quantiaInput3} setQuantiaInput={setQuantiaInput3}/>
-                <QuantiaInput quantiaInput={quantiaInput4} setQuantiaInput={setQuantiaInput4}/>
-                <QuantiaInput quantiaInput={quantiaInput5} setQuantiaInput={setQuantiaInput5}/>
-                <QuantiaInput quantiaInput={quantiaInput6} setQuantiaInput={setQuantiaInput6}/>               
+                {quantiaInput.map((val, idx) => {
+                    const label = `${idx + 1}º Premio (Monto ${idx + 1})`;
+
+                    return (
+                        <QuantiaInput
+                            key={idx}
+                            quantiaInput={val}
+                            setQuantiaInput={(newVal) => handleUpdate(idx, typeof newVal === 'function' ? newVal(val) : newVal)}
+                            label={label}
+                        />
+                    );
+                })}
             </Box>            
         </>
     )

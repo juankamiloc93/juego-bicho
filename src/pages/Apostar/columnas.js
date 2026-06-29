@@ -29,11 +29,7 @@ const columnas = [
         label: 'Quantia 5',
         tipo: 'texto'
     },
-    {
-        campo: 'quantiaInput6',
-        label: 'Quantia 6',
-        tipo: 'texto'
-    },
+
     {
         campo: 'created_at',
         label: 'Fecha de creación',
