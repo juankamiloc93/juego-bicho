@@ -41,7 +41,9 @@ export default function useBetsHttp() {
       await axios.post(`${apiBaseUrl}/bets`, newBet, { headers });
       await fetchBets(); // refrescar lista
     } catch (err) {
-      setError(err.response?.data?.message || err.message);
+      const msg = err.response?.data?.message || err.message;
+      setError(msg);
+      throw new Error(msg);
     } finally {
       setLoading(false);
     }

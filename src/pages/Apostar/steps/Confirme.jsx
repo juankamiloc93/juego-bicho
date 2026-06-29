@@ -90,10 +90,11 @@ export default function Confirme(props){    const {
     if (Array.isArray(quantiaInput)) {
         const len = quantiaInput.length;
         for (let i = 0; i < len; i++) {
-            const label = `${i + 1}º Premio (Monto ${i + 1})`;
+            const item = quantiaInput[i] || { value: 0, numero: "" };
+            const label = `${i + 1}º Premio (Monto ${i + 1}) ${item.numero ? `[Número: ${item.numero}]` : ""}`;
             quantiaList.push({
                 label,
-                value: Number(quantiaInput[i]) || 0
+                value: Number(item.value) || 0
             });
         }
     } else {

@@ -1,9 +1,16 @@
-import { Grid, Button, Typography, Alert, Card, Box, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import { Grid, Button, Typography, Alert, Card, Box, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Select, MenuItem, InputLabel } from "@mui/material";
 
 
 export default function QuantiaInput(props){
 
-    const { quantiaInput, setQuantiaInput, label = "Numero" } = props
+    const { 
+        quantiaInput, 
+        setQuantiaInput, 
+        selectedNumero = "", 
+        setSelectedNumero, 
+        numeros = [], 
+        label = "Numero" 
+    } = props
 
     const onChangeQuantiaInput = (e) => setQuantiaInput(Number(e.target.value))
 
@@ -29,7 +36,30 @@ export default function QuantiaInput(props){
                     gap: 2,
                     pt: 5   
                 }}
-            >               
+            >
+                <FormControl sx={{ minWidth: 150 }}>
+                    <InputLabel id={`select-numero-label-${label}`}>Número</InputLabel>
+                    <Select
+                        labelId={`select-numero-label-${label}`}
+                        value={selectedNumero}
+                        label="Número"
+                        onChange={(e) => setSelectedNumero && setSelectedNumero(e.target.value)}
+                        disabled={numeros.length === 0}
+                    >
+                        {numeros.length === 0 ? (
+                            <MenuItem value="">
+                                <em>Sin números</em>
+                            </MenuItem>
+                        ) : (
+                            numeros.map((num, i) => (
+                                <MenuItem key={i} value={num}>
+                                    {num}
+                                </MenuItem>
+                            ))
+                        )}
+                    </Select>
+                </FormControl>
+
                 <TextField  
                     type="number"                              
                     label={label}

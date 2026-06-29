@@ -37,7 +37,9 @@ export default function () {
   const [modalidade, setModalidade] = useState(NoMealsOuline)
   const [digitos, setDigitos] = useState(null)
   const [numeros, setNumeros] = useState([])
-  const [quantiaInput, setQuantiaInput] = useState([0, 0, 0, 0, 0])
+  const [quantiaInput, setQuantiaInput] = useState(
+    Array(5).fill(null).map(() => ({ value: 0, numero: "" }))
+  );
   const [sorteiochecked, setSorteioChecked] = useState([]);
   const [selectedHours, setSelectedHours] = useState([]);
 
@@ -49,13 +51,31 @@ export default function () {
       const targetLength = positionsCount;
       if (prev.length === targetLength) return prev;
       
-      const newQuantias = Array(targetLength).fill(0);
+      const newQuantias = Array(targetLength).fill(null).map(() => ({ value: 0, numero: "" }));
       for (let i = 0; i < Math.min(prev.length, targetLength); i++) {
-        newQuantias[i] = prev[i];
+        newQuantias[i] = prev[i] || { value: 0, numero: "" };
       }
       return newQuantias;
     });
   }, [positionsCount]);
+
+  useEffect(() => {
+    if (numeros.length > 0) {
+      setQuantiaInput(prev => 
+        prev.map((item, idx) => {
+          if (!item.numero || !numeros.includes(item.numero)) {
+            const defaultNum = numeros[idx % numeros.length];
+            return { ...item, numero: String(defaultNum) };
+          }
+          return item;
+        })
+      );
+    } else {
+      setQuantiaInput(prev => 
+        prev.map(item => ({ ...item, numero: "" }))
+      );
+    }
+  }, [numeros]);
 
   const handleNext = async () => {
     if (activeStep === steps.length - 1) {
@@ -67,45 +87,83 @@ export default function () {
         return match ? parseInt(match[0], 10) : null;
       }).filter(id => id !== null);
 
-      const numbersPayload = numeros.map(n => parseInt(n, 10));
-
-      const payloadQuantias = {
-        quantiaInput1: 0,
-        quantiaInput2: 0,
-        quantiaInput3: 0,
-        quantiaInput4: 0,
-        quantiaInput5: 0,
-        quantiaInput6: 0,
-      };
+      const betsByNumber = {};
 
       if (Array.isArray(quantiaInput)) {
         const pCount = quantiaInput.length;
         for (let i = 0; i < pCount; i++) {
-          const key = `quantiaInput${i + 1}`;
-          if (i < 5) {
-            payloadQuantias[key] = Number(quantiaInput[i]) || 0;
+          const item = quantiaInput[i];
+          const val = Number(item?.value) || 0;
+          if (val > 0) {
+            const num = item?.numero || (numeros[0] ? String(numeros[0]) : "");
+            if (num) {
+              if (!betsByNumber[num]) {
+                betsByNumber[num] = {
+                  quantiaInput1: 0,
+                  quantiaInput2: 0,
+                  quantiaInput3: 0,
+                  quantiaInput4: 0,
+                  quantiaInput5: 0,
+                  quantiaInput6: 0,
+                };
+              }
+              const key = `quantiaInput${i + 1}`;
+              if (i < 5) {
+                betsByNumber[num][key] = val;
+              }
+            }
           }
         }
       }
 
-      const payload = {
-        client_id: clientId,
-        mode_id: modeId,
-        ...payloadQuantias,
-        draw_ids: drawIds,
-        numbers: numbersPayload,
-        hours: selectedHours.map(k => {
-          const parts = String(k).split('_');
-          return parts.length > 2 ? parts[2] : k;
-        })
-      };
+      const uniqueNumbersToBet = Object.keys(betsByNumber);
 
-      try {
-        await createBet(payload);
-        alert('¡Apuesta realizada con éxito!');
-        navigate('/apostar');
-      } catch (err) {
-        alert('Hubo un error al realizar la apuesta: ' + err.message);
+      if (uniqueNumbersToBet.length === 0) {
+        const payload = {
+          client_id: clientId,
+          mode_id: modeId,
+          quantiaInput1: 0,
+          quantiaInput2: 0,
+          quantiaInput3: 0,
+          quantiaInput4: 0,
+          quantiaInput5: 0,
+          quantiaInput6: 0,
+          draw_ids: drawIds,
+          numbers: numeros.map(n => parseInt(n, 10)),
+          hours: selectedHours.map(k => {
+            const parts = String(k).split('_');
+            return parts.length > 2 ? parts[2] : k;
+          })
+        };
+
+        try {
+          await createBet(payload);
+          alert('¡Apuesta realizada con éxito!');
+          navigate('/apostar');
+        } catch (err) {
+          alert('Hubo un error al realizar la apuesta: ' + err.message);
+        }
+      } else {
+        try {
+          for (const num of uniqueNumbersToBet) {
+            const payload = {
+              client_id: clientId,
+              mode_id: modeId,
+              ...betsByNumber[num],
+              draw_ids: drawIds,
+              numbers: [parseInt(num, 10)],
+              hours: selectedHours.map(k => {
+                const parts = String(k).split('_');
+                return parts.length > 2 ? parts[2] : k;
+              })
+            };
+            await createBet(payload);
+          }
+          alert('¡Todas las apuestas fueron realizadas con éxito!');
+          navigate('/apostar');
+        } catch (err) {
+          alert('Hubo un error al realizar alguna de las apuestas: ' + err.message);
+        }
       }
     } else {
       setActiveStep((prev) => prev + 1);
@@ -172,6 +230,7 @@ export default function () {
             {activeStep === 4 && <Quantia
               quantiaInput={quantiaInput}
               setQuantiaInput={setQuantiaInput}
+              numeros={numeros}
             />}
             {activeStep === 5 && <Confirme
               clientId={clientId}

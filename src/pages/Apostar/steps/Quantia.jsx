@@ -6,12 +6,27 @@ export default function Quantia(props){
   
     const { 
         quantiaInput = [],
-        setQuantiaInput
+        setQuantiaInput,
+        numeros = []
     } = props;
    
-    const handleUpdate = (index, value) => {
+    const handleUpdateValue = (index, newVal) => {
         const next = [...quantiaInput];
-        next[index] = value;
+        const val = next[index] || { value: 0, numero: "" };
+        next[index] = {
+            ...val,
+            value: typeof newVal === 'function' ? newVal(val.value) : newVal
+        };
+        setQuantiaInput(next);
+    };
+
+    const handleUpdateNumero = (index, newNum) => {
+        const next = [...quantiaInput];
+        const val = next[index] || { value: 0, numero: "" };
+        next[index] = {
+            ...val,
+            numero: newNum
+        };
         setQuantiaInput(next);
     };
 
@@ -27,12 +42,25 @@ export default function Quantia(props){
             > 
                 {quantiaInput.map((val, idx) => {
                     const label = `${idx + 1}º Premio (Monto ${idx + 1})`;
+                    const item = val || { value: 0, numero: "" };
+
+                    const selectedElsewhere = quantiaInput
+                        .filter((_, i) => i !== idx)
+                        .map(it => it?.numero)
+                        .filter(Boolean);
+
+                    const availableNumeros = numeros.filter(
+                        num => num === item.numero || !selectedElsewhere.includes(num)
+                    );
 
                     return (
                         <QuantiaInput
                             key={idx}
-                            quantiaInput={val}
-                            setQuantiaInput={(newVal) => handleUpdate(idx, typeof newVal === 'function' ? newVal(val) : newVal)}
+                            quantiaInput={item.value}
+                            setQuantiaInput={(newVal) => handleUpdateValue(idx, newVal)}
+                            selectedNumero={item.numero}
+                            setSelectedNumero={(newNum) => handleUpdateNumero(idx, newNum)}
+                            numeros={availableNumeros}
                             label={label}
                         />
                     );
